@@ -30,7 +30,7 @@ jobs:
       - name: Run Arch Package Action
         uses: heyhusen/archlinux-package-action@v2.2.1
         with:
-          path: /
+          path: .
           flags: -si --noconfirm
           namcap: true
           srcinfo: true
