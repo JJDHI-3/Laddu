@@ -37,6 +37,7 @@ def search(search_term, aur=False, git=False):
                     print(f"{i}. Package Name: {result['Name']}\nDescription: {result['Description']}\nVersion: {result['Version']}\n")
         else:
             print(f" -> error: failed to fetch data from AUR. HTTP Status Code: {response.status_code}")
+            exit(1)
     
     elif git:
         package = search_term.split('/', 1)[-1]
@@ -55,9 +56,10 @@ def search(search_term, aur=False, git=False):
                     print(f"{i + 1}. Repository Name: {repo['name']}\nDescription: {repo['description']}\nURL: {repo['html_url']}\nDefault Branch: {repo['default_branch']}\n")
         else:
             print(f" -> error: failed to fetch data from GitHub. HTTP Status Code: {response.status_code}")
-    
+            exit(1)
     else:
         print(" -> error: invalid option. Use --aur or --git.")
+        exit(1)
 
 def sync(package):
     if "--aur" in package:
@@ -213,5 +215,6 @@ except KeyboardInterrupt:
 
 except Exception as e:
     print(f" -> error: {e}")
+
 
 
