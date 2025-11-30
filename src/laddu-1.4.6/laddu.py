@@ -4,6 +4,7 @@ from sys import argv
 from os import system
 from time import sleep
 from subprocess import run
+import subprocess
 
 # Setup
 VERSION_RAW = "v1.4.6"
@@ -130,7 +131,7 @@ def update():
     print(f"{cyan}::{normal} Synchronizing Package Databases...\n")
     sleep(3)
     response = requests.get(SCRIPT_URL)
-    result = subprocess.run(
+    result = run(
         "sudo pacman -Syu",
         shell=True,
         stdout=subprocess.DEVNULL,
@@ -232,5 +233,6 @@ except KeyboardInterrupt:
 
 except Exception as e:
     print(f" -> error: {e}")
+
 
 
