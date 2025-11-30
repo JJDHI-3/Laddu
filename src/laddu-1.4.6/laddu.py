@@ -130,6 +130,18 @@ def update():
     print(f"{cyan}::{normal} Synchronizing Package Databases...\n")
     sleep(3)
     response = requests.get(SCRIPT_URL)
+    result = subprocess.run(
+        "sudo pacman -Syu",
+        shell=True,
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.DEVNULL
+    )
+
+    if result.returncode == 0:
+        print("-> successfully updated system")
+    else:
+        print("-> error updating system")
+        exit(1)
 
     if response.status_code == 200:    
         new_script = response.text
@@ -220,4 +232,5 @@ except KeyboardInterrupt:
 
 except Exception as e:
     print(f" -> error: {e}")
+
 
