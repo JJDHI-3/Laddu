@@ -8,7 +8,7 @@ from subprocess import run
 # Setup
 VERSION_RAW = "v1.4.6"
 VERSION = f"laddu-{VERSION_RAW}"
-SCRIPT_URL = f"https://raw.githubusercontent.com/Aaha3-1/Laddu/src/laddu-{VERSION_RAW}/laddu.py"
+SCRIPT_URL = f"https://raw.githubusercontent.com/JJDHI-3/Laddu/src/laddu-{VERSION_RAW}/laddu.py"
 SCRIPT_PATH = "/usr/share/laddu/laddu.py"
 pkg_name_desc = {}
 pkg_name_version = {}
@@ -20,8 +20,11 @@ l = "{"
 r = "}"
 
 def search(search_term, aur=False, git=False):
+    pkg_name_desc.clear()
+    pkg_name_version.clear()
+
     if aur:
-        package = search_term.split('/', 1)[-1]
+        package = search_term
         url = f"https://aur.archlinux.org/rpc/?v=5&type=search&arg={package}"
         response = requests.get(url)
         
@@ -76,8 +79,8 @@ def sync(package):
         search(package)
         source = "unknown"
 
-    option = int(input('Enter Package Number (default 1):\n==> '))
     option = 1
+    option = int(input('Enter Package Number (default 1):\n==> '))
     selected_pkg = pkg_name_desc[option]
     selected_version = pkg_name_version[option]
     sleep(3)
@@ -197,7 +200,8 @@ try:
         sync(argv[2])
 
     if argv[1] == "-Ss" or argv[1] == "--search":
-        search(argv[3], aur=True if '--aur' in argv else False, git=True if '--git' in argv else False)
+        term = argv[-1] if not argv[-1].startswith('--') else argv[2]
+        search(term, aur='--aur' in argv, git='--git' in argv)
         
     if argv[1] == "-V" or argv[1] == "--version":
         print(VERSION)
@@ -215,6 +219,3 @@ except KeyboardInterrupt:
 
 except Exception as e:
     print(f" -> error: {e}")
-
-
-
