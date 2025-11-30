@@ -1,6 +1,6 @@
 # Maintainer: Aaha3 <Aaha3.sh@gmail.com>
 
-pkgname='laddu'
+pkgname='laddu-git'
 pkgver='1.4.6'
 pkgrel=1
 pkgdesc="Laddu is a small, simple AUR Helper Built in Python"
@@ -10,7 +10,7 @@ license=('GPL')
 depends=('git' 'python-colorama' 'python-requests')
 makedepends=('python-build' 'python-wheel')
 source=('laddu::https://github.com/Aaha3-1/Laddu.git')
-sha256sums=(SKIP)
+sha256sums=('SKIP')
 
 # Optional pkgver function if required
 # pkgver() {
