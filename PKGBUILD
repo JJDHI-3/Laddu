@@ -5,11 +5,11 @@ pkgver='1.4.6'
 pkgrel=1
 pkgdesc="Laddu is a small, simple AUR Helper Built in Python"
 arch=('x86_64')
-url="https://github.com/Aaha3-1/Laddu.git"
+url="https://github.com/JJDHI-3/Laddu.git"
 license=('GPL')
 depends=('git' 'python-colorama' 'python-requests')
 makedepends=('python-build' 'python-wheel')
-source=('laddu::https://github.com/Aaha3-1/Laddu.git')
+source=('laddu::git+https://github.com/JJDHI-3/Laddu.git')
 sha256sums=('SKIP')
 
 # Optional pkgver function if required
@@ -19,13 +19,13 @@ sha256sums=('SKIP')
 # }
 
 build() {
-    cd "$srcdir/$pkgname-$pkgver"
+    cd "$srcdir/laddu/src/laddu-1.4.6/"
     python3 -m pip install --upgrade build
     python3 -m build --wheel --no-isolation
 }
 
 package() {
-    cd "$srcdir/$pkgname-$pkgver"
+    cd "$srcdir/laddu/src/laddu-1.4.6/"
     python3 -m pip install --root="$pkgdir" dist/*.whl
 
     # Create the wrapper script
