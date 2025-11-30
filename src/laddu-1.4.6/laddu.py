@@ -74,7 +74,8 @@ def sync(package):
         search(package)
         source = "unknown"
 
-    option = int(input('Enter Package Number (e.g. 1,2,3,4):\n==> '))
+    option = int(input('Enter Package Number (default 1):\n==> '))
+    option = 1
     selected_pkg = pkg_name_desc[option]
     selected_version = pkg_name_version[option]
     sleep(3)
@@ -95,7 +96,7 @@ def sync(package):
         sleep(3)
         rev = input(f"\n{cyan}::{normal} Proceed with Review of PKGBUILD? [Y/n] ")
         if rev.lower() == "y":
-            system(f"cd {selected_pkg.split('/', 1)[-1]} && cat PKGBUILD")
+            system("cd {pkg_name_desc[option]} && cat PKGBUILD")
             input('\n')
             system("cd ..")
             print("\n", end='')
@@ -205,6 +206,11 @@ except IndexError:
     else:
         update()
         sync(argv[1])
+
+except KeyboardInterrupt:
+    print("\n -> operation cancelled by user (KeyboardInterrupt)")
+    exit(1)
+
 except Exception as e:
     print(f" -> error: {e}")
 
