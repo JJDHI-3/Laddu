@@ -8,7 +8,7 @@ from subprocess import run
 # Setup
 VERSION_RAW = "v1.4.6"
 VERSION = f"laddu-{VERSION_RAW}"
-SCRIPT_URL = f"https://raw.githubusercontent.com/JJDHI-3/Laddu/src/laddu-{VERSION_RAW}/laddu.py"
+SCRIPT_URL = f"https://raw.githubusercontent.com/JJDHI-3/Laddu/main/src/laddu-{VERSION_RAW}/laddu.py"
 SCRIPT_PATH = "/usr/share/laddu/laddu.py"
 pkg_name_desc = {}
 pkg_name_version = {}
@@ -43,7 +43,7 @@ def search(search_term, aur=False, git=False):
             exit(1)
     
     elif git:
-        package = search_term.split('/', 1)[-1]
+        package = search_term
         url = f"https://api.github.com/search/repositories?q={package}"
         response = requests.get(url)
     
@@ -56,7 +56,7 @@ def search(search_term, aur=False, git=False):
                 for i, repo in enumerate(data['items'], start=1):
                     pkg_name_desc[i] = repo['name']
                     pkg_name_version[i] = repo['default_branch']
-                    print(f"{i + 1}. Repository Name: {repo['name']}\nDescription: {repo['description']}\nURL: {repo['html_url']}\nDefault Branch: {repo['default_branch']}\n")
+                    print(f"{i}. Repository Name: {repo['name']}\nDescription: {repo['description']}\nURL: {repo['html_url']}\nDefault Branch: {repo['default_branch']}\n")
         else:
             print(f" -> error: failed to fetch data from GitHub. HTTP Status Code: {response.status_code}")
             exit(1)
@@ -79,8 +79,8 @@ def sync(package):
         search(package)
         source = "unknown"
 
-    option = 1
-    option = int(input('Enter Package Number (default 1):\n==> '))
+    choose = input('Enter Package Number (default 1):\n==> ')
+    option = int(choose) if choose.strip() else 1
     selected_pkg = pkg_name_desc[option]
     selected_version = pkg_name_version[option]
     sleep(3)
@@ -137,8 +137,9 @@ def update():
             current_script.write(new_script)
         print(f" -> Update complete. Terminating...")
         sleep(3)
-        system(f"sudo python3 {SCRIPT_PATH} {' '.join(argv[1:])}")
-        exit(0)
+        print(" -> Update complete. Restarting Laddu...\n")
+        system(f"exec sudo python3 {SCRIPT_PATH} {' '.join(argv[1:])}")
+
     else:
         sleep(3)
         print(f"core is up to date")
@@ -219,3 +220,4 @@ except KeyboardInterrupt:
 
 except Exception as e:
     print(f" -> error: {e}")
+
