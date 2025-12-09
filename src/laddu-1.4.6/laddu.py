@@ -102,7 +102,7 @@ def sync(package):
         sleep(3)
         rev = input(f"\n{cyan}::{normal} Proceed with Review of PKGBUILD? [Y/n] ")
         if rev.lower() == "y":
-            system("cd {pkg_name_desc[option]} && cat PKGBUILD")
+            system(f"cd {pkg_name_desc[option]} && cat PKGBUILD")
             input('\n')
             system("cd ..")
             print("\n", end='')
